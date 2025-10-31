@@ -1,6 +1,6 @@
 const studentSchema = require("../model/studentSchema");
 const mongoose = require("mongoose");
-const AppError = require("./AppError");
+const AppError = require("../utils/AppError");
 const fs = require("fs");
 
 exports.validateStudentUpdateDetails = async ({

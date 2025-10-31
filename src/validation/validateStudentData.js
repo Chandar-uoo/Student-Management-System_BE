@@ -1,6 +1,6 @@
  const studentSchema = require("../model/studentSchema");
  const { default: mongoose } = require("mongoose");
-const AppError = require("./AppError");
+const AppError = require("../utils/AppError");
 
 exports.validateStudentDetails = async ({fullName,email,rollNumber}) => {
  
