@@ -2,11 +2,11 @@ const studentSchema = require("../model//studentSchema");
 const { default: mongoose } = require("mongoose");
 const AppError = require("../utils/AppError");
 const fs = require("fs");
-
 const { validateStudentDetails } = require("../validation/validateStudentData");
 const {
   validateStudentUpdateDetails,
 } = require("../validation/validateStudentUpdateDetails");
+const deleteOldPhoto = require("../utils/deleteOldPhoto");
 exports.addStudentService = async (req) => {
   const {
     fullName,
@@ -39,7 +39,7 @@ exports.addStudentService = async (req) => {
   return { newStudent };
 };
 
-exports.updateStudentService = async (req, deleteOldPhoto) => {
+exports.updateStudentService = async (req) => {
   const { id } = req.params;
   const {
     fullName,
@@ -84,7 +84,7 @@ exports.updateStudentService = async (req, deleteOldPhoto) => {
   return;
 };
 
-exports.deleteStudentSevice = async (req,deleteOldPhoto) => {
+exports.deleteStudentSevice = async (req) => {
   const { id } = req.params;
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
     throw new AppError("Bad Request", 400);
