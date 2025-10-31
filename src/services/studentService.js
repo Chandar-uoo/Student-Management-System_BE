@@ -95,13 +95,7 @@ exports.deleteStudentSevice = async (req,deleteOldPhoto) => {
     throw new AppError("student not found", 404);
   }
   if (student.photo) {
-    const filename = student.photo.split("/uploads/")[1];
-    const filePath = path.join("uploads", filename);
-
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      console.log("🧹 Deleted old photo:", filename);
-    }
+    deleteOldPhoto(student.photo)
   }
   await studentSchema.findByIdAndUpdate(id, {
     isDeleted: true,
