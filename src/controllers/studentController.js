@@ -46,20 +46,12 @@ exports.deleteStudentController = async (req, res) => {
   });
 };
 exports.searchStudentController = async (req, res) => {
-  const { students, total, limit, page } =
+  const { students } =
     await studentService.searchStudentService(req);
   res.status(200).json({
     sucess: true,
     message: "successfully Student Deleted",
     data: students,
-    meta: {
-      totalStudents: total,
-      totalPages: Math.ceil(total / limit),
-      currentPage: page,
-      pageSize: limit,
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1,
-    },
   });
 };
 exports.readAllStudentController = async (req, res) => {
