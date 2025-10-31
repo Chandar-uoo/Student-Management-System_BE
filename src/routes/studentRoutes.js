@@ -7,9 +7,9 @@ const studentController = require("../controllers/studentController")
 const upload =  require("../middleware/upload")
 const {auth} =  require("../middleware/authMiddleware")
 // add
-studentRouter.post("/add",auth,upload.single("photo"),validateStudentBody, catchAsync(studentController.addStudentController));
+studentRouter.post("/add",auth,validateStudentBody, catchAsync(studentController.addStudentController));
 // update
-studentRouter.put("/update/:id",auth,upload.single("photo"),validateStudentBody,catchAsync(studentController.updateStudentController));
+studentRouter.put("/update/:id",auth,validateStudentBody,catchAsync(studentController.updateStudentController));
 // search
 studentRouter.get('/search',auth,catchAsync(studentController.searchStudentController));
 // delete
