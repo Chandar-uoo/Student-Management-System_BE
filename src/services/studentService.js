@@ -3,10 +3,10 @@ const { default: mongoose } = require("mongoose");
 const AppError = require("../utils/AppError");
 const fs = require("fs");
 
-const { validateStudentDetails } = require("../utils/validateStudentData");
+const { validateStudentDetails } = require("../validation/validateStudentData");
 const {
   validateStudentUpdateDetails,
-} = require("../utils/validateStudentUpdateDetails");
+} = require("../validation/validateStudentUpdateDetails");
 exports.addStudentService = async (req) => {
   const {
     fullName,
@@ -84,7 +84,7 @@ exports.updateStudentService = async (req, deleteOldPhoto) => {
   return;
 };
 
-exports.deleteStudentSevice = async (req) => {
+exports.deleteStudentSevice = async (req,deleteOldPhoto) => {
   const { id } = req.params;
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
     throw new AppError("Bad Request", 400);
@@ -94,8 +94,14 @@ exports.deleteStudentSevice = async (req) => {
   if (!student) {
     throw new AppError("student not found", 404);
   }
-  if (student.photo && fs.existsSync(student.photo)) {
-    fs.unlinkSync(student.photo); // delete old image
+  if (student.photo) {
+    const filename = student.photo.split("/uploads/")[1];
+    const filePath = path.join("uploads", filename);
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      console.log("🧹 Deleted old photo:", filename);
+    }
   }
   await studentSchema.findByIdAndUpdate(id, {
     isDeleted: true,
