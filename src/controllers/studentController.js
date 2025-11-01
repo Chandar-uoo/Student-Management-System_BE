@@ -1,6 +1,4 @@
 const studentService = require("../services/studentService");
-const path = require("path"); 
-const fs = require("fs");
 
 
 
@@ -14,7 +12,6 @@ exports.addStudentController = async (req, res) => {
     data: newStudent,
   });
 };
-
 
 exports.updateStudentController = async (req, res) => {
 

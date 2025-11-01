@@ -6,7 +6,10 @@ const { validateStudentDetails } = require("../validation/validateStudentData");
 const {
   validateStudentUpdateDetails,
 } = require("../validation/validateStudentUpdateDetails");
+const path = require("path");
+
 const deleteOldPhoto = require("../utils/deleteOldPhoto");
+
 exports.addStudentService = async (req) => {
   const {
     fullName,
@@ -63,7 +66,7 @@ exports.updateStudentService = async (req) => {
     deleteOldPhoto,
   });
 
- await studentSchema.findByIdAndUpdate(
+  await studentSchema.findByIdAndUpdate(
     id,
     {
       fullName,
@@ -83,7 +86,6 @@ exports.updateStudentService = async (req) => {
 
   return;
 };
-
 exports.deleteStudentSevice = async (req) => {
   const { id } = req.params;
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
@@ -95,13 +97,17 @@ exports.deleteStudentSevice = async (req) => {
     throw new AppError("student not found", 404);
   }
   if (student.photo) {
-    deleteOldPhoto(student.photo)
+    console.log("calling");
+
+    deleteOldPhoto(student.photo);
   }
   await studentSchema.findByIdAndUpdate(id, {
     isDeleted: true,
   });
+
   return;
 };
+
 exports.searchStudentService = async (req) => {
   const { q } = req.query;
 
